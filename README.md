@@ -102,7 +102,7 @@ While running in interactive mode, **kshell** ignores the keyboard input `Ctrl+c
 
 User hits `Ctrl+d` in the third line.
 ```
-$ ./shellex
+$ ./kshell
 $ ^C
 $ ^C
 $
