@@ -17,7 +17,7 @@ gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o kshell
 ./kshell
 ```
 
-**kshell** can be invoked both interactively and non-interactively. If **shellex** is invoked with standard input not connected to a terminal, it reads and executes received commands in order.
+**kshell** can be invoked both interactively and non-interactively. If **kshell** is invoked with standard input not connected to a terminal, it reads and executes received commands in order.
 
 Example:
 ```
@@ -83,14 +83,14 @@ $ echo "echo $PATH" | ./kshell
 
 ### Command Execution :thumbsup:
 
-After receiving a command, **shellex** tokenizes it into words using `" "` as a delimiter. The first word is considered the command and all remaining words are considered arguments to that command. **shellex** then proceeds with the following actions:
+After receiving a command, **kshell** tokenizes it into words using `" "` as a delimiter. The first word is considered the command and all remaining words are considered arguments to that command. **shellex** then proceeds with the following actions:
 1. If the first character of the command is neither a slash (`\`) nor dot (`.`), the shell searches for it in the list of shell builtins. If there exists a builtin by that name, the builtin is invoked.
-2. If the first character of the command is none of a slash (`\`), dot (`.`), nor builtin, **shellex** searches each element of the **PATH** environmental variable for a directory containing an executable file by that name.
+2. If the first character of the command is none of a slash (`\`), dot (`.`), nor builtin, **kshell** searches each element of the **PATH** environmental variable for a directory containing an executable file by that name.
 3. If the first character of the command is a slash (`\`) or dot (`.`) or either of the above searches was successful, the shell executes the named program with any remaining given arguments in a separate execution environment.
 
 ### Exit Status :wave:
 
-**shellex** returns the exit status of the last command executed, with zero indicating success and non-zero indicating failure.
+**kshell** returns the exit status of the last command executed, with zero indicating success and non-zero indicating failure.
 
 If a command is not found, the return status is `127`; if a command is found but is not executable, the return status is 126.
 
@@ -98,7 +98,7 @@ All builtins return zero on success and one or two on incorrect usage (indicated
 
 ### Signals :exclamation:
 
-While running in interactive mode, **shellex** ignores the keyboard input `Ctrl+c`. Alternatively, an input of end-of-file (`Ctrl+d`) will exit the program.
+While running in interactive mode, **kshell** ignores the keyboard input `Ctrl+c`. Alternatively, an input of end-of-file (`Ctrl+d`) will exit the program.
 
 User hits `Ctrl+d` in the third line.
 ```
@@ -110,7 +110,7 @@ $
 
 ### Variable Replacement :heavy_dollar_sign:
 
-**shellex** interprets the `$` character for variable replacement.
+**kshell** interprets the `$` character for variable replacement.
 
 #### $ENV_VARIABLE
 `ENV_VARIABLE` is substituted with its value.
@@ -126,7 +126,7 @@ $ echo "echo $PWD" | ./shellex
 
 Example:
 ```
-$ echo "echo $?" | ./shellex
+$ echo "echo $?" | ./kshell
 0
 ```
 
@@ -135,17 +135,17 @@ The second `$` is substitued with the current process ID.
 
 Example:
 ```
-$ echo "echo $$" | ./shellex
+$ echo "echo $$" | ./kshell
 6494
 ```
 
 ### Comments :hash:
 
-**shellex** ignores all words and characters preceeded by a `#` character on a line.
+**kshell** ignores all words and characters preceeded by a `#` character on a line.
 
 Example:
 ```
-$ echo "echo 'hello' #this will be ignored!" | ./shellex
+$ echo "echo 'hello' #this will be ignored!" | ./kshell
 'hello'
 ```
 
@@ -158,7 +158,7 @@ Commands separated by a `;` are executed sequentially.
 
 Example:
 ```
-$ echo "echo 'hello' ; echo 'world'" | ./shellex
+$ echo "echo 'hello' ; echo 'world'" | ./kshell
 'hello'
 'world'
 ```
@@ -168,9 +168,9 @@ $ echo "echo 'hello' ; echo 'world'" | ./shellex
 
 Example:
 ```
-$ echo "error! && echo 'hello'" | ./shellex
+$ echo "error! && echo 'hello'" | ./kshell
 ./shellex: 1: error!: not found
-$ echo "echo 'all good' && echo 'hello'" | ./shellex
+$ echo "echo 'all good' && echo 'hello'" | ./kshell
 'all good'
 'hello'
 ```
@@ -180,14 +180,14 @@ $ echo "echo 'all good' && echo 'hello'" | ./shellex
 
 Example:
 ```
-$ echo "error! || echo 'but still runs'" | ./shellex
+$ echo "error! || echo 'but still runs'" | ./kshell
 ./shellex: 1: error!: not found
 'but still runs'
 ```
 
 The operators `&&` and `||` have equal precedence, followed by `;`.
 
-### shellex Builtin Commands :nut_and_bolt:
+### shell Builtin Commands :nut_and_bolt:
 
 #### cd
   * Usage: `cd [DIRECTORY]`
@@ -199,7 +199,7 @@ The operators `&&` and `||` have equal precedence, followed by `;`.
 
 Example:
 ```
-$ ./shellex
+$ ./kshell
 $ pwd
 /home/vagrant/ALX/simple_shell
 $ cd ../
@@ -219,10 +219,10 @@ $ pwd
 
 Example:
 ```
-$ ./shellex
+$ ./kshell
 $ alias show=ls
 $ show
-AUTHORS            builtins_help_2.c  errors.c         linkedlist.c        shell.h       test
+                    builtins_help_2.c  errors.c         linkedlist.c        shell.h       test
 README.md          env_builtins.c     getline.c        locate.c            shellex
 alias_builtins.c   environ.c          helper.c         main.c              split.c
 builtin.c          err_msgs1.c        helpers_2.c      man_1_simple_shell  str_funcs1.c
@@ -247,7 +247,7 @@ $ exit
 
 Example:
 ```
-$ ./shellex
+$ ./kshell
 $ env
 NVM_DIR=/home/vagrant/.nvm
 ...
@@ -273,7 +273,7 @@ Poppy
 
 Example:
 ```
-$ ./shellex
+$ ./kshell
 $ setenv NAME Poppy
 $ unsetenv NAME
 $ echo $NAME
@@ -288,6 +288,6 @@ $
 
 ## Acknowledgements :pray:
 
-**shellex** emulates basic functionality of the **sh** shell. This README borrows form the Linux man pages [sh(1)](https://linux.die.net/man/1/sh) and [dash(1)](https://linux.die.net/man/1/dash).
+**kshell** emulates basic functionality of the **sh** shell. This README borrows form the Linux man pages [sh(1)](https://linux.die.net/man/1/sh) and [dash(1)](https://linux.die.net/man/1/dash).
 
 This project was written as part of the curriculum of the ALX-SE programme by Holberton School. Holberton School is a campus-based full-stack software engineering program that prepares students for careers in the tech industry using project-based peer learning. For more information about ALX, visit [this link](https://www.alxafrica.com/).
